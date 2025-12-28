@@ -5,7 +5,7 @@ const upload = require('../multer');
 
 
 
-// router.post("/pagePost", upload.single("image"), getPagePost);
+
 
 router.post(
     "/pagePost",
