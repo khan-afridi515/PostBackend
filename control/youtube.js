@@ -1,10 +1,10 @@
 const axios = require('axios');
 const qs = require('qs');
 const fs = require('fs');
-
+const User = require("../modal/model");
 const { google } = require('googleapis');
 const dotenv = require('dotenv');
-const User = require('../model/modal');
+
 dotenv.config();
 
 
@@ -86,6 +86,7 @@ const oauth2Client = new google.auth.OAuth2(
   const getTokenFromDB = async (channel) => {
     const token = await User.findOne({ channel });
     if (!token) throw new Error(`No token found for channel: ${channel}`);
+    console.log("Token retrieved from DB:", token);
     return token;
   };
   
@@ -98,6 +99,8 @@ const oauth2Client = new google.auth.OAuth2(
       if (!req.files || !req.files.video) {
         return res.status(400).json({ error: "Video file missing" });
       }
+
+      console.log("This is the req.body", req.body);
   
       const videoFile = req.files.video[0];
   
