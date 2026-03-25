@@ -3,6 +3,7 @@ const qs = require('qs');
 const fs = require('fs');
 const FormData = require('form-data');
 const dotenv = require('dotenv');
+const Activity = require('../modal/activity');
 const cloudinary = require('cloudinary').v2;
 
 
@@ -44,6 +45,13 @@ exports.getPagePost = async (req, res) => {
         access_token: mypageToken
       });
 
+      await Activity.create({
+        platform: "facebook",
+        message: content,
+        postId: response.data.id,
+        status: "success"
+      });
+
       return res.status(200).json({
         message: "Text-only post shared successfully!",
         facebookResponse: response.data
@@ -64,6 +72,13 @@ exports.getPagePost = async (req, res) => {
         headers: formData.getHeaders()
       });
 
+      await Activity.create({
+        platform: "facebook",
+        message: content,
+        postId: response.data.id,
+        status: "success"
+      });
+
       fs.unlinkSync(imageFile.path);
 
       return res.status(200).json({
@@ -72,6 +87,7 @@ exports.getPagePost = async (req, res) => {
       });
     }
 
+    
     // -------------------------------------------------------
     // CASE 3: VIDEO
     // -------------------------------------------------------
@@ -84,6 +100,13 @@ exports.getPagePost = async (req, res) => {
 
       const response = await axios.post(videoUrl, formData, {
         headers: formData.getHeaders()
+      });
+
+      await Activity.create({
+        platform: "facebook",
+        message: content,
+        postId: response.data.id,
+        status: "success"
       });
 
       fs.unlinkSync(videoFile.path);
@@ -207,6 +230,13 @@ exports.PostInstagram = async (req, res) => {
         access_token: pageAccessToken,
       }
     );
+
+    await Activity.create({
+      platform: "instagram",
+      message: caption,
+      postId: publishResponse.data.id,
+      status: "success"
+    });
 
     return res.json({
       success: true,

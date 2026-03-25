@@ -4,6 +4,7 @@ const fs = require('fs');
 const User = require("../modal/model");
 const { google } = require('googleapis');
 const dotenv = require('dotenv');
+const Activity = require('../modal/activity');
 
 dotenv.config();
 
@@ -163,6 +164,13 @@ if (Date.now() >= token.expiry_date) {
         success: true,
         videoId: response.data.id,
         message: "Video uploaded successfully"
+      });
+
+      await Activity.create({
+        platform: "youtube",
+        message: title,
+        postId: response.data.id,
+        status: "success"
       });
   
     } catch (err) {

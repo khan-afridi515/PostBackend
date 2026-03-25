@@ -2,6 +2,7 @@ const logg = require("../modal/log");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
+const Activity = require('../modal/activity');
 
 dotenv.config();
 
@@ -74,4 +75,19 @@ exports.deletAll = async(req, res) => {
     catch(err){
         console.log(err);
     }
+}
+
+
+
+exports.myactivities = async(req, res) => {
+    try {
+        const activities = await Activity.find().sort({ createdAt: -1 });
+    
+        res.json({
+          success: true,
+          data: activities
+        });
+      } catch (err) {
+        res.status(500).json({ error: err.message });
+      }
 }

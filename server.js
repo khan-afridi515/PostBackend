@@ -21,3 +21,5 @@ app.listen(3003, () =>{
     connectDB();
     console.log('Server is running on port 3003 http://localhost:3003/app/facebook/pagePost');
 })
+
+//http://localhost:3003/api/youtube/allActivities
