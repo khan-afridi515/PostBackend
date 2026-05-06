@@ -11,7 +11,17 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.json());
 
-app.use(cors());
+// app.use(cors());
+
+
+
+app.use(
+  cors({
+    origin: "http://localhost:5173", // ✅ your frontend URL
+    credentials: true, // ✅ allow cookies
+  })
+);
+
 app.use('/app/facebook', router);
 app.use('/api/linkedIn', mylinkRouter);
 app.use('/api/youtube', myRouter);

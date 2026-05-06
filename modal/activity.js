@@ -19,6 +19,11 @@ const activitySchema = new mongoose.Schema(
       enum: ["success", "failed"],
       default: "success",
     },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+      expires: 60 * 60 * 24, // 24 hours (in seconds)
+    }
   },
   { timestamps: true } // 👈 gives createdAt
 );
